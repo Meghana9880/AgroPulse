@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    /* AgroPulse - Agricultural Theme */
+    --background: 120 20% 98%;
+    --foreground: 120 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 120 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 120 25% 15%;
+
+    /* Primary - Forest Green */
+    --primary: 142 55% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Sage */
+    --secondary: 120 15% 92%;
+    --secondary-foreground: 120 25% 25%;
+
+    /* Muted */
+    --muted: 120 10% 94%;
+    --muted-foreground: 120 10% 45%;
+
+    /* Accent - Harvest Gold */
+    --accent: 40 90% 50%;
+    --accent-foreground: 40 90% 15%;
+
+    /* Status Colors */
+    --success: 142 70% 40%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 38 92% 15%;
+    
+    --danger: 0 72% 51%;
+    --danger-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 15% 88%;
+    --input: 120 15% 88%;
+    --ring: 142 55% 35%;
+
+    --radius: 0.75rem;
+
+    /* Custom AgroPulse tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(142, 55%, 35%) 0%, hsl(120, 40%, 45%) 50%, hsl(40, 90%, 50%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(120, 20%, 98%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(40, 90%, 50%) 0%, hsl(25, 95%, 55%) 100%);
+    
+    --shadow-card: 0 4px 20px -4px hsla(120, 25%, 15%, 0.1);
+    --shadow-elevated: 0 10px 40px -10px hsla(120, 25%, 15%, 0.15);
+    --shadow-glow: 0 0 30px hsla(142, 55%, 35%, 0.2);
+
+    /* Sidebar */
+    --sidebar-background: 120 25% 15%;
+    --sidebar-foreground: 120 10% 90%;
+    --sidebar-primary: 142 55% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 120 20% 25%;
+    --sidebar-accent-foreground: 120 10% 90%;
+    --sidebar-border: 120 20% 25%;
+    --sidebar-ring: 142 55% 45%;
+  }
+
+  .dark {
+    --background: 120 25% 8%;
+    --foreground: 120 10% 95%;
+
+    --card: 120 20% 12%;
+    --card-foreground: 120 10% 95%;
+
+    --popover: 120 20% 12%;
+    --popover-foreground: 120 10% 95%;
+
+    --primary: 142 55% 45%;
+    --primary-foreground: 120 25% 10%;
+
+    --secondary: 120 15% 18%;
+    --secondary-foreground: 120 10% 90%;
+
+    --muted: 120 15% 18%;
+    --muted-foreground: 120 10% 60%;
+
+    --accent: 40 90% 55%;
+    --accent-foreground: 40 90% 10%;
+
+    --success: 142 70% 45%;
+    --success-foreground: 120 25% 10%;
+    
+    --warning: 38 92% 55%;
+    --warning-foreground: 38 92% 10%;
+    
+    --danger: 0 72% 55%;
+    --danger-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 15% 22%;
+    --input: 120 15% 22%;
+    --ring: 142 55% 45%;
+
+    --sidebar-background: 120 25% 6%;
+    --sidebar-foreground: 120 10% 90%;
+    --sidebar-primary: 142 55% 50%;
+    --sidebar-primary-foreground: 120 25% 10%;
+    --sidebar-accent: 120 20% 15%;
+    --sidebar-accent-foreground: 120 10% 90%;
+    --sidebar-border: 120 20% 15%;
+    --sidebar-ring: 142 55% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .agro-card {
+    @apply bg-card rounded-xl p-6 shadow-[var(--shadow-card)] border border-border/50 transition-all duration-300;
+  }
+  
+  .agro-card:hover {
+    @apply shadow-[var(--shadow-elevated)] -translate-y-1;
+  }
+  
+  .agro-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-hero);
+  }
+  
+  .agro-button-glow {
+    @apply relative overflow-hidden;
+  }
+  
+  .agro-button-glow::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: var(--shadow-glow);
+  }
+  
+  .agro-button-glow:hover::before {
+    @apply opacity-100;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+  
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+  
+  .animate-bounce-gentle {
+    animation: bounceGentle 2s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes bounceGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}

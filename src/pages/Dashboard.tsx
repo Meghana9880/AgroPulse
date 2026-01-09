@@ -1,0 +1,229 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { RefreshCw, Leaf } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import DashboardNav from '@/components/DashboardNav';
+import WeatherCard from '@/components/WeatherCard';
+import GrowthStageCard from '@/components/GrowthStageCard';
+import HealthIndicator from '@/components/HealthIndicator';
+import IrrigationAdviceCard from '@/components/IrrigationAdviceCard';
+import MandiPriceCard from '@/components/MandiPriceCard';
+import AIAdvisor from '@/components/AIAdvisor';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { 
+  calculateGrowthStage, 
+  analyzeWeatherRisks, 
+  getIrrigationAdvice, 
+  calculateCropHealth,
+} from '@/lib/mockData';
+import { WeatherData, CropGrowthStage, WeatherAlert, IrrigationAdvice, CropHealth, MandiPrice } from '@/lib/types';
+
+const Dashboard: React.FC = () => {
+  const { user, farmDetails, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [growthStage, setGrowthStage] = useState<CropGrowthStage | null>(null);
+  const [weatherAlert, setWeatherAlert] = useState<WeatherAlert | null>(null);
+  const [irrigationAdvice, setIrrigationAdvice] = useState<IrrigationAdvice | null>(null);
+  const [cropHealth, setCropHealth] = useState<CropHealth | null>(null);
+  const [mandiPrices, setMandiPrices] = useState<MandiPrice[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/login');
+    } else if (!authLoading && user && !farmDetails) {
+      navigate('/register');
+    }
+  }, [user, farmDetails, authLoading, navigate]);
+
+  useEffect(() => {
+    if (farmDetails && user) {
+      loadDashboardData();
+    }
+  }, [farmDetails, user]);
+
+  const loadDashboardData = async () => {
+    if (!farmDetails || !user) return;
+    
+    setIsRefreshing(true);
+    
+    try {
+      // Fetch real weather data from edge function
+      const { data: weatherData, error: weatherError } = await supabase.functions.invoke('weather', {
+        body: { lat: user.latitude, lon: user.longitude }
+      });
+
+      if (weatherError) {
+        console.error('Weather error:', weatherError);
+        toast({
+          title: 'Weather data error',
+          description: 'Using cached weather data',
+          variant: 'destructive'
+        });
+      }
+
+      const finalWeather: WeatherData = weatherData?.error ? {
+        temperature: 28,
+        humidity: 65,
+        rainfall: 0,
+        description: 'Clear',
+        icon: '01d',
+        windSpeed: 12,
+        feelsLike: 30
+      } : weatherData;
+
+      setWeather(finalWeather);
+      
+      // Calculate growth stage
+      const stage = calculateGrowthStage(farmDetails.sowingDate, farmDetails.cropType);
+      setGrowthStage(stage);
+      
+      // Analyze weather risks
+      const alert = analyzeWeatherRisks(finalWeather);
+      setWeatherAlert(alert);
+      
+      // Get irrigation advice
+      const advice = getIrrigationAdvice(finalWeather, stage.stage, farmDetails.cropType);
+      setIrrigationAdvice(advice);
+      
+      // Calculate crop health
+      const health = calculateCropHealth(finalWeather, stage, alert);
+      setCropHealth(health);
+      
+      // Fetch real mandi prices
+      const { data: mandiData, error: mandiError } = await supabase.functions.invoke('mandi-prices', {
+        body: { 
+          crop: farmDetails.cropType, 
+          state: user.state,
+          lat: user.latitude,
+          lon: user.longitude,
+          days: 7
+        }
+      });
+
+      if (mandiError) {
+        console.error('Mandi prices error:', mandiError);
+      }
+
+      if (mandiData?.prices) {
+        setMandiPrices(mandiData.prices);
+      }
+      
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+      toast({
+        title: 'Error loading data',
+        description: 'Some data could not be loaded. Please refresh.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  if (authLoading || !farmDetails) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <Leaf className="animate-bounce mx-auto text-primary" size={48} />
+          <p className="mt-4 text-muted-foreground">Loading AgroPulse...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <DashboardNav mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+      
+      {/* Main Content */}
+      <main className="lg:ml-72 pt-20 lg:pt-6 pb-8 px-4 lg:px-8">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold">
+              Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, {user?.name?.split(' ')[0]}!
+            </h1>
+            <p className="text-muted-foreground">
+              {farmDetails.cropType} • {farmDetails.season} Season • {user?.district}, {user?.state}
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={loadDashboardData}
+            disabled={isRefreshing}
+          >
+            <RefreshCw className={isRefreshing ? 'animate-spin' : ''} size={18} />
+            <span className="hidden sm:inline ml-2">Refresh</span>
+          </Button>
+        </div>
+
+        {/* Dashboard Features - Stacked Vertically */}
+        <div className="flex flex-col gap-6">
+          {/* Crop Health */}
+          {cropHealth && (
+            <HealthIndicator health={cropHealth} />
+          )}
+
+          {/* Growth Stage */}
+          {growthStage && (
+            <GrowthStageCard growthStage={growthStage} cropType={farmDetails.cropType} />
+          )}
+
+          {/* Weather Card */}
+          {weather && weatherAlert && (
+            <WeatherCard weather={weather} alert={weatherAlert} />
+          )}
+
+          {/* Irrigation Advice */}
+          {irrigationAdvice && (
+            <IrrigationAdviceCard advice={irrigationAdvice} />
+          )}
+
+          {/* Mandi Prices */}
+          <MandiPriceCard 
+            prices={mandiPrices} 
+            onViewDetails={() => navigate('/markets')}
+          />
+
+          {/* AI Advisor */}
+          <AIAdvisor
+            cropType={farmDetails.cropType}
+            growthStage={growthStage?.stage || 'Seedling'}
+            weather={weather || { temperature: 30, humidity: 60, rainfall: 0 }}
+            modalPrice={mandiPrices[0]?.modalPrice || 2000}
+          />
+        </div>
+
+        {/* Sustainability Tips */}
+        <div className="mt-6 agro-card bg-gradient-to-r from-primary/5 to-accent/5">
+          <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+            🌱 Sustainability Tips
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-card/50 rounded-lg p-3">
+              <p className="font-medium text-primary">💧 Water Conservation</p>
+              <p className="text-sm text-muted-foreground">Use drip irrigation to save up to 40% water</p>
+            </div>
+            <div className="bg-card/50 rounded-lg p-3">
+              <p className="font-medium text-primary">🧪 Reduced Fertilizer</p>
+              <p className="text-sm text-muted-foreground">Apply fertilizer based on soil test results</p>
+            </div>
+            <div className="bg-card/50 rounded-lg p-3">
+              <p className="font-medium text-primary">🐛 Natural Pest Control</p>
+              <p className="text-sm text-muted-foreground">Use neem-based solutions for organic farming</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Dashboard;
