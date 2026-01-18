@@ -14,7 +14,9 @@ Backend Supabase – Backend-as-a-Service PostgreSQL – Relational database Sup
 
 AI & APIs Google Gemini 2.5 Flash – AI farm advisor Crop disease detection (image analysis) Soil type analysis Gemini AI Gateway – Secure Gemini API access OpenWeather API – Real-time weather data Browser Geolocation API – Location detection.
 
+
 **Follow these steps:**
+
  Step 1: Clone the repository using the project's Git URL.
 
 git clone https://github.com/Meghana9880/AgroPulse.git
