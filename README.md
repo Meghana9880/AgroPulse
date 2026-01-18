@@ -6,6 +6,7 @@ The system uses React + Supabase for a scalable backend, OpenWeather API for wea
 
 Outcome: A practical, scalable, and farmer-centric solution for modern sustainable agriculture in India.
 
+
 ****#🛠️ Technologies Used in AgroPulse* Frontend****
 
 React 18 – Build interactive user interfaces TypeScript – Type-safe JavaScript Vite – Fast development and build tool Tailwind CSS – Responsive, mobile-first styling shadcn/ui – Accessible UI components React Router v6 – Client-side navigation TanStack Query – API data fetching & caching Recharts – Charts and analytics dashboards
@@ -13,6 +14,7 @@ React 18 – Build interactive user interfaces TypeScript – Type-safe JavaScri
 Backend Supabase – Backend-as-a-Service PostgreSQL – Relational database Supabase Edge Functions (Deno) – Serverless APIs Supabase Auth – Secure authentication Row Level Security (RLS) – Data protection
 
 AI & APIs Google Gemini 2.5 Flash – AI farm advisor Crop disease detection (image analysis) Soil type analysis Gemini AI Gateway – Secure Gemini API access OpenWeather API – Real-time weather data Browser Geolocation API – Location detection.
+
 
 
 **Follow these steps:**
