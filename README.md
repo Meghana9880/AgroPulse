@@ -17,7 +17,7 @@ AI & APIs Google Gemini 2.5 Flash – AI farm advisor Crop disease detection (im
 Follow these steps:
 
 # Step 1: Clone the repository using the project's Git URL.
-git clone https://github.com/Mahi7955/AgroPulse.git
+git clone https://github.com/Meghana9880/AgroPulse.git
 
 # Step 2: Navigate to the project directory.
 cd AgroPulse
