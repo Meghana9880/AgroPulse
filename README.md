@@ -20,10 +20,13 @@ Follow these steps:
 git clone https://github.com/Mahi7955/AgroPulse.git
 
  Step 2: Navigate to the project directory.
+ 
 cd AgroPulse
 
  Step 3: Install the necessary dependencies.
+ 
 npm install
 
  Step 4: Start the development server with auto-reloading and an instant preview.
+ 
 npm run dev
