@@ -21,7 +21,7 @@ git clone https://github.com/Mahi7955/AgroPulse.git
 
  Step 2: Navigate to the project directory.
  
-cd AgroPulse
+ cd AgroPulse
 
  Step 3: Install the necessary dependencies.
  
