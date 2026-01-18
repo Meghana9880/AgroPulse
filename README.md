@@ -1,73 +1,29 @@
-# Welcome to your Lovable project
+🌾 AgroPulse
 
-## Project info
+AgroPulse is an AI-powered smart agriculture platform designed for Indian farmers. It provides real-time weather updates, crop growth tracking, live APMC mandi prices, AI-based disease detection, smart irrigation advice, expense tracking, and an equipment rental marketplace.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+The system uses React + Supabase for a scalable backend, OpenWeather API for weather data, and Google Gemini AI for crop advisory, soil analysis, and disease detection. AgroPulse helps farmers make data-driven decisions, reduce losses, increase yield, and improve profitability through a single, farmer-friendly platform.
 
-## How can I edit this code?
+Outcome: A practical, scalable, and farmer-centric solution for modern sustainable agriculture in India.
 
-There are several ways of editing your application.
+#🛠️ Technologies Used in AgroPulse* Frontend
 
-**Use Lovable**
+React 18 – Build interactive user interfaces TypeScript – Type-safe JavaScript Vite – Fast development and build tool Tailwind CSS – Responsive, mobile-first styling shadcn/ui – Accessible UI components React Router v6 – Client-side navigation TanStack Query – API data fetching & caching Recharts – Charts and analytics dashboards
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Backend Supabase – Backend-as-a-Service PostgreSQL – Relational database Supabase Edge Functions (Deno) – Serverless APIs Supabase Auth – Secure authentication Row Level Security (RLS) – Data protection
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+AI & APIs Google Gemini 2.5 Flash – AI farm advisor Crop disease detection (image analysis) Soil type analysis Gemini AI Gateway – Secure Gemini API access OpenWeather API – Real-time weather data Browser Geolocation API – Location detection.
 
 Follow these steps:
 
-```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/Mahi7955/AgroPulse.git
 
 # Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+cd AgroPulse
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
