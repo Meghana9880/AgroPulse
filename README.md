@@ -15,14 +15,15 @@ Backend Supabase – Backend-as-a-Service PostgreSQL – Relational database Sup
 AI & APIs Google Gemini 2.5 Flash – AI farm advisor Crop disease detection (image analysis) Soil type analysis Gemini AI Gateway – Secure Gemini API access OpenWeather API – Real-time weather data Browser Geolocation API – Location detection.
 
 Follow these steps:
-# Step 1: Clone the repository using the project's Git URL.
+ Step 1: Clone the repository using the project's Git URL.
+
 git clone https://github.com/Mahi7955/AgroPulse.git
 
-# Step 2: Navigate to the project directory.
+ Step 2: Navigate to the project directory.
 cd AgroPulse
 
-# Step 3: Install the necessary dependencies.
+ Step 3: Install the necessary dependencies.
 npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+ Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
